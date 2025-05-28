@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Admin Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .top-header {
+            background-color: #f8f8f8;
+            padding: 10px 0;
+            border-bottom: 1px solid #e7e7e7;
+        }
+
+        .contact-info {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: flex-end;
+            gap: 20px;
+            padding: 0 20px;
+        }
+
+        .contact-info span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .navigation-bar {
+            background-color: #c9ab42b1;
+        }
+
+        .nav-links {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding: 20px 20px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: rgb(176, 19, 19);
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #100901;
+        }
+
+        .logo {
+            height: 100px;
+            width: 100px;
+            margin-left: 10px;
+            transition: transform 0.3s ease;
+            filter: drop-shadow(8px 2px 4px rgba(9, 4, 3, 0.5));
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .slideshow-container {
+            width: 100%;
+            max-width: 1500px;
+            height: 600px;
+            margin: auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .dots-container {
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .dot {
+            height: 12px;
+            width: 12px;
+            margin: 0 5px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            cursor: pointer;
+            transition: background-color 0.6s ease;
+        }
+
+        .dot.active {
+            background-color: #128eed;
+        }
+
+        .container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .login-box {
+            width: 80%;
+            max-width: 800px;
+            padding: 40px;
+            background: #f4f3f16c;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .contact-info, .nav-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-box {
+                width: 90%;
+                padding: 30px;
+                margin: 0 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-header">
+        <div class="contact-info">
+            <h1><span><i class="fa fa-phone"></i> Toll Free: 1800-123-4567</span></h1>
+            <h1><span><i class="fa fa-envelope"></i> Email: asishimishra1010@gmail.com</span></h1>
+        </div>
+    </div>
+
+    <div class="navigation-bar">
+        <div class="nav-links">
+            <img src="/static/logo.jpg" alt="parking Logo" class="logo">
+            <a href="#home"><h2>Home</h2></a>
+            <a href="/login"><h2>Login</h2></a>
+            <a href="/admin"><h2>About</h2></a>
+            <a href="#updates"><h2>Latest Updates</h2></a>
+            <a href="#faqs"><h2>FAQs</h2></a>
+            <a href="#contact"><h2>Contact</h2></a>
+        </div>
+    </div>
+    <br><br>
+    <div class="slideshow-container">
+        <div class="slide active">
+            <img src="/static/p1.jpg" alt="Banner 1">
+        </div>
+        <div class="slide">
+            <img src="/static/p2.jpg" alt="Banner 2">
+        </div>
+        <div class="slide">
+            <img src="/static/p3.jpg" alt="Banner 3">
+        </div>
+    </div>
+
+    <div class="dots-container">
+        <span class="dot active" onclick="currentSlide(0)"></span>
+        <span class="dot" onclick="currentSlide(1)"></span>
+        <span class="dot" onclick="currentSlide(2)"></span>
+    </div>
+
+    <div class="container">
+        <!-- Informational sections here -->
+        <!-- The same content from your original HTML -->
+    </div>
+
+    <script>
+        let slideIndex = 0;
+        const slides = document.getElementsByClassName("slide");
+        const dots = document.getElementsByClassName("dot");
+        let slideInterval;
+
+        function showSlides() {
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].classList.remove("active");
+                dots[i].classList.remove("active");
+            }
+
+            slideIndex++;
+            if (slideIndex >= slides.length) {
+                slideIndex = 0;
+            }
+
+            slides[slideIndex].classList.add("active");
+            dots[slideIndex].classList.add("active");
+        }
+
+        function currentSlide(n) {
+            clearInterval(slideInterval);
+
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].classList.remove("active");
+                dots[i].classList.remove("active");
+            }
+
+            slideIndex = n;
+            slides[slideIndex].classList.add("active");
+            dots[slideIndex].classList.add("active");
+
+            slideInterval = setInterval(showSlides, 5000);
+        }
+
+        slideInterval = setInterval(showSlides, 5000);
+    </script>
+</body>
+</html>
