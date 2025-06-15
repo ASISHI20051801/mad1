@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Add Parking Lot</title>
+  <style>
+    body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #e0f7fa, #bbdefb);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.form-container {
+  background: white;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 500px;
+}
+
+h1 {
+  margin-bottom: 25px;
+  color: #006064;
+  text-align: center;
+}
+
+form label {
+  display: block;
+  margin: 12px 0 6px;
+  font-weight: bold;
+}
+
+form input,
+form textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+form button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background: linear-gradient(135deg, #00796b, #004d40);
+  color: white;
+  font-size: 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.3s ease;
+}
+
+form button:hover {
+  background: linear-gradient(135deg, #00897b, #00695c);
+}
+
+.back-btn {
+  display: block;
+  text-align: center;
+  margin-top: 15px;
+  text-decoration: none;
+  color: #00796b;
+  font-weight: bold;
+}
+.parking-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 20px 0;
+}
+
+.parking-spot {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  background-color: #43a047; /* green for available */
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+  </style>
+  <link rel="stylesheet" href="add-parking-lot.css">
+</head>
+<body>
+  <div class="form-container">
+    <h1>Add New Parking Lot</h1>
+    <form id="lotForm">
+      <label for="lotName">Parking Lot Name:</label>
+      <input type="text" id="lotName" name="lotName" required />
+
+      <label for="totalSpots">Total Spots:</label>
+      <input type="number" id="totalSpots" name="totalSpots" min="1" required />
+
+      <label for="location">Address:</label>
+      <textarea id="location" name="location" rows="3"></textarea>
+
+      <label for="pincode">Pincode:</label>
+<input type="text" id="pincode" name="pincode" pattern="[0-9]{6}" maxlength="6" required />
+
+
+      <div id="preview" class="parking-row"></div>
+
+      <button type="submit">Add Lot</button><br>
+      
+      <a href="dashboard.html" class="back-btn">Back to Dashboard</a>
+    </form>
+  </div>
+
+  <script>
+    const totalSpotsInput = document.getElementById("totalSpots");
+    const previewContainer = document.getElementById("preview");
+
+    totalSpotsInput.addEventListener("input", () => {
+      const count = parseInt(totalSpotsInput.value, 10);
+      previewContainer.innerHTML = "";
+
+      if (count > 0) {
+        for (let i = 1; i <= count; i++) {
+          const spot = document.createElement("div");
+          spot.className = "parking-spot available";
+          spot.textContent = i;
+          previewContainer.appendChild(spot);
+        }
+      }
+    });
+  </script>
+</body>
+</html>

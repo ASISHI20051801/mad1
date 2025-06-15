@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Login</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <style>
+    /* Full height and zero margins */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1c1c1c, #3a3a3a);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Watermark ADMIN text */
+    .admin-watermark {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-30deg);
+      font-size: 12rem;
+      color: rgba(238, 226, 226, 0.345);
+      font-weight: 900;
+      z-index: 1;
+      pointer-events: none;
+      user-select: none;    
+    }
+
+    .container {
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .login-box {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 40px 30px;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      z-index: 2;
+    }
+
+    .login-box h2 {
+      text-align: center;
+      color: #ffffff;
+      margin-bottom: 30px;
+      font-size: 28px;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px 15px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      background: rgba(255, 255, 255, 0.1);
+      color: #000000;
+      transition: 0.3s ease;
+    }
+
+    .input-group input::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .input-group input:focus {
+      background: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 12px;
+      background: #00bcd4;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .login-btn:hover {
+      background: #0097a7;
+      box-shadow: 0 0 10px rgba(0, 188, 212, 0.4);
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 14px;
+    }
+
+    @media (max-width: 480px) {
+      .login-box {
+        padding: 30px 20px;
+      }
+      .admin-watermark {
+        font-size: 7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Oblique watermark -->
+  <div class="admin-watermark">ADMIN</div>
+
+  <div class="container">
+    <div class="login-box">
+      <h2>Admin Panel Login</h2>
+      <form action="/admin_login" method="post">
+        <div class="input-group">
+          <input type="text" name="username" placeholder="Username" required />
+        </div>
+        <div class="input-group">
+          <input type="password" name="password" placeholder="Password" required />
+        </div>
+        <button type="submit" class="login-btn">Login</button>
+      </form>
+      <div class="footer">
+        Authorized personnel only
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

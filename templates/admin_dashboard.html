@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <title>ParkEase Admin Dashboard</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #e0f7fa, #bbdefb);
+    }
+    header {
+      background-color: #006064;
+      color: #ffffff;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo-area {
+      display: flex;
+      align-items: center;
+    }
+    .logo-circle {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+      font-size: 24px;
+      color: #006064;
+      font-weight: bold;
+    }
+    .website-name {
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .container {
+      display: flex;
+      max-width: 1200px;
+      margin: 20px auto;
+    }
+    .sidebar {
+      width: 250px;
+      background-color: #004d40;
+      color: #fff;
+      padding: 20px;
+    }
+    .sidebar h2 {
+      margin-bottom: 20px;
+      border-bottom: 2px solid #fff;
+      padding-bottom: 10px;
+    }
+    .sidebar ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    .sidebar li {
+      margin-bottom: 10px;
+    }
+    .sidebar a {
+      color: #fff;
+      text-decoration: none;
+      display: block;
+      padding: 10px 16px;
+      border-radius: 5px;
+    }
+    .sidebar a:hover, .sidebar a.active {
+      background-color: #00796b;
+    }
+    .sidebar a i {
+      margin-right: 10px;
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 30px;
+      background-color: #f1f8e9;
+    }
+
+    .main-content h1 {
+      margin-bottom: 10px;
+      color: #004d40;
+    }
+
+    .datetime {
+      font-size: 18px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .user-list {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+
+    .user-list h2 {
+      margin-bottom: 10px;
+      color: #006064;
+    }
+
+    .user-list ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .user-list li {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .user-list li:last-child {
+      border-bottom: none;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo-area">
+      <div class="logo-circle">🅿️</div>
+      <div class="website-name">ParkEase</div>
+    </div>
+    <h1>Admin Dashboard</h1>
+    <div class="admin-text">Admin &gt; Dashboard</div>
+  </header>
+
+  <div class="container">
+    <div class="sidebar">
+      <h2>Menu</h2>
+      <ul>
+        <li><a class="active" href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+        <li><a href="#"><i class="fas fa-users"></i> Users</a></li>
+        <li><a href="#"><i class="fas fa-search"></i> Search</a></li>
+        <li><a href="#"><i class="fas fa-parking"></i> Lots</a></li>
+        <li><a href="#"><i class="fas fa-chart-pie"></i> Summary</a></li>
+        <li><a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+      </ul>
+    </div>
+
+    <div class="main-content">
+      <h1>Today's User Registrations</h1>
+      <div class="datetime" id="datetime"></div>
+
+      <div class="user-list">
+        <h2>Registered Users</h2>
+        <ul id="userList">
+          <!-- Dynamic Users -->
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Display current date and time
+    function updateDateTime() {
+      const now = new Date();
+      const datetimeElem = document.getElementById('datetime');
+      datetimeElem.textContent = now.toLocaleString();
+    }
+
+    // Simulated new user registration
+    function addUser(name) {
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+      users.push(name);
+      localStorage.setItem('users', JSON.stringify(users));
+      renderUsers();
+    }
+
+    function renderUsers() {
+      const userList = document.getElementById('userList');
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+      userList.innerHTML = users.length
+        ? users.map(user => `<li>${user}</li>`).join('')
+        : `<li>No users registered today.</li>`;
+    }
+
+    function checkDateReset() {
+      const today = new Date().toDateString();
+      const lastDate = localStorage.getItem('lastDate');
+      if (lastDate !== today)
+      {
+        localStorage.setItem('lastDate', today);
+        localStorage.setItem('users', JSON.stringify([]));
+      }
+    }
+
+    // Initial setup
+    updateDateTime();
+    checkDateReset();
+    renderUsers();
+
+    // Optional: simulate a few users on first visit
+    if (!localStorage.getItem('initialized'))
+    {
+      addUser("User_001");
+      addUser("User_002");
+      localStorage.setItem('initialized', 'true');
+    }
+
+    // Live update datetime every 10 seconds
+    setInterval(updateDateTime, 10000);
+  </script>
+</body>
+</html>

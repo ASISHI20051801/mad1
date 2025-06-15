@@ -4,7 +4,6 @@ from datetime import datetime
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///api_database.sqlite3'
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
@@ -19,12 +18,21 @@ class Admin(db.Model):
 class User(db.Model):
     __tablename__='user'
     id=db.Column(db.Integer,primary_key=True)
-    name=db.Column(db.String,nullable=False)
+    first_name=db.Column(db.String,nullable=False)
+    last_name=db.Column(db.String,nullable=False)
+    dateofbirth=db.Column(db.String,nullable=False)
+    gender=db.Column(db.String,nullable=False)
+    bio=db.Column(db.String,nullable=False)
     email=db.Column(db.String,unique=True,nullable=False)
     phone=db.Column(db.String,nullable=False)
+    alternate_phone=db.Column(db.String,nullable=True)
     address=db.Column(db.String,nullable=False)
+    city=db.Column(db.String,nullable=False)
+    state=db.Column(db.String,nullable=False)
+    country=db.Column(db.String,nullable=False)
     pincode=db.Column(db.String,nullable=False)
     password=db.Column(db.String,nullable=False)
+    confirm_password=db.Column(db.String,nullable=False)
     reserved_spots = db.relationship('Reservation',backref='user',lazy=True)
 
 class ParkingLot(db.Model):
