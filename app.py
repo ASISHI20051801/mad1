@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, url_for
+from flask import Flask, request, render_template, redirect, url_for, flash
 from database import *
 from database import db  # Ensure db is imported
 from werkzeug.security import generate_password_hash
@@ -228,11 +228,11 @@ def admin_login():
     return render_template("admin.html")
 
 # ###################################################################################################################################################################################################################################
-# @app.route("/home_influencer")
-# def home_influencer():
-#     global home
-#     inf=Influencers_create_account.query.get(home)
-#     return render_template("influencerdashboard.html",name=inf.companyname, email=inf.email)
+@app.route("/dashboard")
+def home_influencer():
+    global home
+    user=User.query.get(home)
+    return render_template("user_dashboard.html")
 
 
 # # @app.route("/home_influencer_to_logout")
@@ -243,18 +243,57 @@ def admin_login():
 
 
 
-# @app.route("/home_sponsor")
-# def home_sponsor():
-#     global home
-#     sp=Sponsor_create_account.query.get(home)
-#     return render_template("sponsordashboard.html",name=sp.firstname, email=sp.email)
+@app.route("/profile", methods=["GET", "POST"])
+def update_profile():
+    global active_user
+    
+    # Add user authentication check
+    if not active_user:
+        flash("Please log in first", "error")
+        return redirect(url_for("login"))
+    
+    user = User.query.get(active_user)
+    if not user:
+        flash("User not found", "error")
+        return redirect(url_for("login"))
+    
+    if request.method == "POST":
+        # Update user fields with fallbacks
+        user.first_name = request.form.get("first_name", "")
+        user.last_name = request.form.get("last_name", "")
+        user.dateofbirth = request.form.get("dateofbirth", "")
+        user.gender = request.form.get("gender", "")
+        user.bio = request.form.get("bio", "")
+        user.email = request.form.get("email", "")
+        user.phone = request.form.get("phone", "")
+        user.alternate_phone = request.form.get("alternate_phone", "")
+        user.address = request.form.get("address", "")
+        user.city = request.form.get("city", "")
+        user.pincode = request.form.get("pincode", "")
+        user.state = request.form.get("state", "")
+        user.country = request.form.get("country", "")
+        
+        password = request.form.get("password")
+        confirm_password = request.form.get("confirm_password")
 
+        # Password update logic
+        if password:
+            if password == confirm_password:
+                user.password = generate_password_hash(password)
+            else:
+                flash("Passwords do not match", "error")
+                return render_template("user_profile.html", user=user)
 
-@app.route("/profile" , methods=["GET", "POST"])
-def profile_one():
-    global profile
-    return render_template("user_profile.html",user=profile)
+        try:
+            db.session.commit()
+            flash("Profile updated successfully!", "success")
+        except Exception as e:
+            db.session.rollback()
+            flash("Error updating profile", "error")
+            
+        return redirect(url_for("update_profile"))
 
+    return render_template("user_profile.html", user=user)
 
 # @app.route("/home_influencer_search_to_dashboard")
 # def home_influencer_search_to_dashboard():
@@ -281,54 +320,6 @@ def profile_one():
 # ###################################################################################################################################################################################################################################
 
 
-
-
-@app.route("/profile",methods=["GET","POST"])
-def profile():
-    global active_user, profile
-    x= User.query.get(active_user)
-    profile= User.query.get(active_user)
-    if request.method=="POST":
-        first_name = request.form.get("first_name")
-        last_name = request.form.get("last_name")
-        dateofbirth = request.form.get("dateofbirth")
-        gender = request.form.get("gender")
-        bio = request.form.get("bio")
-        email = request.form.get('email')
-        phone = request.form.get('phone')
-        alternate_phone = request.form.get('alternate_phone')
-        address = request.form.get('address')
-        pincode = request.form.get('pincode')
-        city = request.form.get('city')
-        state = request.form.get('state')
-        country = request.form.get('country')
-        password = request.form.get('password')
-        confirm_password = request.form.get('confirm_password')
-        
-
-       
-        x.name=name
-        x.username=username
-        x.email=email
-        x.niche=niche
-        x.reach=reach
-        x.bio=bio
-        x.password=password
-        x.category=category
-
-        db.session.commit()
-
-        return render_template("profileinfluencer.html",name=name,bio=bio,email=email,category=category,password=password,username=username,reach=reach,niche=niche)
-
-    name=x.name
-    email=x.email
-    category=x.category
-    bio=x.bio
-    reach=x.reach
-    niche=x.niche
-    username=x.username
-    password=x.password
-    return render_template("profileinfluencer.html",name=name,reach=reach,niche=niche,bio=bio,email=email,category=category,password=password,username=username)
 
 
 

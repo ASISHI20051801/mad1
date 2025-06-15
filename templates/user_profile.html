@@ -744,31 +744,29 @@
             
             <ul class="menu-items">
                 <li class="menu-item">
-                    <a href="#" class="menu-link">
+                    <a href="/dashboard" class="menu-link">
                         <i class="fas fa-tachometer-alt menu-icon"></i>
                         Dashboard
                     </a>
                 </li>
+            
+
+                <a href="/profile" class="menu-link active">Profile</a>
+
                 <li class="menu-item">
-                    <a href="#" class="menu-link active">
-                        <i class="fas fa-user menu-icon"></i>
-                        Profile
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link">
+                    <a href="/search" class="menu-link">
                         <i class="fas fa-search menu-icon"></i>
                         Search Parking
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="#" class="menu-link">
+                    <a href="/summary" class="menu-link">
                         <i class="fas fa-chart-line menu-icon"></i>
                         Summary
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="#" class="menu-link">
+                    <a href="/logout" class="menu-link">
                         <i class="fas fa-sign-out-alt menu-icon"></i>
                         Logout
                     </a>
@@ -965,220 +963,6 @@
         </main>
     </div>
 
-    <script>
-        // Menu functionality
-        const menuToggle = document.getElementById('menuToggle');
-        const sidebar = document.getElementById('sidebar');
-        const menuLinks = document.querySelectorAll('.menu-link');
-
-        menuToggle?.addEventListener('click', () => {
-            sidebar.classList.toggle('active');
-        });
-
-        // Active menu highlighting
-        menuLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                menuLinks.forEach(l => l.classList.remove('active'));
-                link.classList.add('active');
-            });
-        });
-
-        // Tab functionality
-        const tabBtns = document.querySelectorAll('.tab-btn');
-        const tabContents = document.querySelectorAll('.tab-content');
-
-        tabBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const tabId = btn.getAttribute('data-tab');
-                
-                // Remove active class from all tabs and contents
-                tabBtns.forEach(b => b.classList.remove('active'));
-                tabContents.forEach(c => c.classList.remove('active'));
-                
-                // Add active class to clicked tab and corresponding content
-                btn.classList.add('active');
-                document.getElementById(tabId).classList.add('active');
-            });
-        });
-
-        // Avatar upload functionality
-        const avatarUpload = document.getElementById('avatarUpload');
-        const avatarIcon = document.getElementById('avatarIcon');
-
-        avatarUpload.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    img.style.width = '100%';
-                    img.style.height = '100%';
-                    img.style.objectFit = 'cover';
-                    img.style.borderRadius = '50%';
-                    
-                    avatarIcon.parentElement.innerHTML = '';
-                    avatarIcon.parentElement.appendChild(img);
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
-        // Form submission
-        const profileForm = document.getElementById('profileForm');
-        const successMessage = document.getElementById('successMessage');
-        const displayName = document.getElementById('displayName');
-        const displayEmail = document.getElementById('displayEmail');
-
-        profileForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            // Get form values
-            const firstName = document.getElementById('firstName').value;
-            const lastName = document.getElementById('lastName').value;
-            const email = document.getElementById('email').value;
-            
-            // Update display values
-            displayName.textContent = `${firstName} ${lastName}`;
-            displayEmail.textContent = email;
-            
-            // Show success message
-            successMessage.style.display = 'flex';
-            setTimeout(() => {
-                successMessage.style.display = 'none';
-            }, 3000);
-            
-            // Add save animation
-            const saveBtn = document.getElementById('saveBtn');
-            const originalText = saveBtn.innerHTML;
-            saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
-            saveBtn.disabled = true;
-            
-            setTimeout(() => {
-                saveBtn.innerHTML = '<i class="fas fa-check"></i> Saved!';
-                setTimeout(() => {
-                    saveBtn.innerHTML = originalText;
-                    saveBtn.disabled = false;
-                }, 1000);
-            }, 1500);
-        });
-
-        // Cancel button functionality
-        document.getElementById('cancelBtn').addEventListener('click', () => {
-            profileForm.reset();
-            // Reset to original values
-            document.getElementById('firstName').value = 'John';
-            document.getElementById('lastName').value = 'Doe';
-            document.getElementById('email').value = 'john.doe@example.com';
-        });
-
-        // Toggle switch functionality for 2FA
-        const twoFactorToggle = document.getElementById('twoFactorAuth');
-        const toggleSpan = twoFactorToggle.nextElementSibling;
-        const toggleSlider = toggleSpan.nextElementSibling;
-
-        twoFactorToggle.addEventListener('change', () => {
-            if (twoFactorToggle.checked) {
-                toggleSpan.style.backgroundColor = '#667eea';
-                toggleSlider.style.transform = 'translateX(26px)';
-            } else {
-                toggleSpan.style.backgroundColor = '#ccc';
-                toggleSlider.style.transform = 'translateX(0px)';
-            }
-        });
-
-        // Password strength indicator
-        const newPasswordInput = document.getElementById('newPassword');
-        const confirmPasswordInput = document.getElementById('confirmPassword');
-
-        newPasswordInput.addEventListener('input', () => {
-            const password = newPasswordInput.value;
-            // You can add password strength logic here
-        });
-
-        confirmPasswordInput.addEventListener('input', () => {
-            const password = newPasswordInput.value;
-            const confirmPassword = confirmPasswordInput.value;
-            
-            if (password && confirmPassword) {
-                if (password === confirmPassword) {
-                    confirmPasswordInput.style.borderColor = '#11998e';
-                } else {
-                    confirmPasswordInput.style.borderColor = '#f5576c';
-                }
-            }
-        });
-
-        // Add floating animation effects
-        setInterval(() => {
-            const avatar = document.querySelector('.profile-avatar');
-            if (avatar) {
-                avatar.style.transform = `translateY(${Math.sin(Date.now() * 0.002) * 3}px)`;
-            }
-        }, 50);
-
-        // Animate stats on scroll
-        const animateStats = () => {
-            const statNumbers = document.querySelectorAll('.stat-number');
-            statNumbers.forEach((stat, index) => {
-                const finalValue = stat.textContent;
-                if (finalValue.includes('₹')) {
-                    // For currency values
-                    const numValue = parseInt(finalValue.replace(/[₹,]/g, ''));
-                    animateNumber(stat, 0, numValue, '₹');
-                } else if (finalValue.includes('.')) {
-                    // For decimal values
-                    const numValue = parseFloat(finalValue);
-                    animateDecimal(stat, 0, numValue);
-                } else {
-                    // For integer values
-                    const numValue = parseInt(finalValue);
-                    animateNumber(stat, 0, numValue);
-                }
-            });
-        };
-
-        const animateNumber = (element, start, end, prefix = '', suffix = '') => {
-            const duration = 2000;
-            const startTime = performance.now();
-            
-            const animate = (currentTime) => {
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                
-                const current = Math.floor(start + (end - start) * progress);
-                element.textContent = prefix + current.toLocaleString() + suffix;
-                
-                if (progress < 1) {
-                    requestAnimationFrame(animate);
-                }
-            };
-            
-            requestAnimationFrame(animate);
-        };
-
-        const animateDecimal = (element, start, end) => {
-            const duration = 2000;
-            const startTime = performance.now();
-            
-            const animate = (currentTime) => {
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                
-                const current = start + (end - start) * progress;
-                element.textContent = current.toFixed(1);
-                
-                if (progress < 1) {
-                    requestAnimationFrame(animate);
-                }
-            };
-            
-            requestAnimationFrame(animate);
-        };
-
-        // Trigger stats animation after page load
-        setTimeout(animateStats, 1000);
-    </script>
+   
 </body>
 </html>
